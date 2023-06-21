@@ -101,15 +101,16 @@ public class Lista {
         Thread.sleep(3000);
         System.out.println("\nO nome da tarefa criada é: " + nome + "\nA descrição da tarefa criada é: " + descricao + "\nA data da tarefa criada é: " + dataFormatada + "\n");
 
-        // Loop
+            
         boolean continuar = true;
-        while (continuar) {
+        while (continuar == true) {
             System.out.println("\n-> QUAL AÇÃO DESEJA REALIZAR AGORA ?\n");
             System.out.println("[ 1 ] Criar Tarefa.\n");
             System.out.println("[ 2 ] Editar Tarefa.\n");
             System.out.println("[ 3 ] Excluir Tarefa.\n");
-            System.out.println("[ 4 ] Visualizar Tarefas\n");
+            System.out.println("[ 4 ] Visualizar Tarefas.\n");
             System.out.println("[ 5 ] Voltar ao menu principal.\n");
+            System.out.println("[ 6 ] Alterar status da tarefa.");
 
             String escolha3 = scanner.nextLine();
 
@@ -128,6 +129,9 @@ public class Lista {
                     break;
                 case "5":
                     continuar = false;
+                    break;
+                case "6":
+                    statusTarefa();
                     break;
                 default:
                     System.out.println("\nOpção inválida, por favor tente novamente.\n");
@@ -239,10 +243,15 @@ public class Lista {
         }
     }
 
-    private static void exibirTarefas() {
+    private static void exibirTarefas() throws InterruptedException {
         if (listaTarefas.isEmpty()) {
-            System.out.println("\nNão há tarefas disponíveis para exibir.\n");
-        } else {
+            System.out.println("\nNão há tarefas disponíveis para visualizar.\n");
+            Thread.sleep(2000);
+            System.out.println("*** POR FAVOR CRIE A TAREFA PARA VISUALIZAR *** ");
+            Thread.sleep(1000);
+            criaTarefa();
+            return;
+        }else {
             System.out.println("\n--- LISTA DE TAREFAS ---\n");
             for (int i = 0; i < listaTarefas.size(); i++) {
                 Tarefa tarefa = listaTarefas.get(i);
@@ -251,7 +260,49 @@ public class Lista {
                 System.out.println("Descrição: " + tarefa.getDescricao());
                 System.out.println("Data: " + tarefa.getData());
                 System.out.println("------------------------");
-            }
         }
+    
+        System.out.println("\n--- STATUS DAS TAREFAS ---\n");
+        for (int i = 0; i < listaTarefas.size(); i++) {
+            Tarefa tarefa = listaTarefas.get(i);
+            String status = tarefa.isConcluida() ? "[ X ]" : "[  ]";
+            System.out.println("[" + (i + 1) + "] " + status + " " + tarefa.getNome());
+        }
+    
+        System.out.println();
+        Thread.sleep(2000);
+    }
+    }
+    
+    private static void statusTarefa() throws InterruptedException {
+        if (listaTarefas.isEmpty()) {
+            System.out.println("\nNão há tarefas disponíveis para alterar o status.\n");
+            Thread.sleep(2000);
+            System.out.println("*** POR FAVOR CRIE A TAREFA PARA ALTERAR O STATUS *** ");
+            Thread.sleep(1000);
+            criaTarefa();
+            return;
+        }
+
+        System.out.println("\nSelecione a tarefa cujo status você deseja alterar:\n");
+        for (int i = 0; i < listaTarefas.size(); i++) {
+            Tarefa tarefa = listaTarefas.get(i);
+            String status = tarefa.isConcluida() ? "[X]" : "[ ]";
+            System.out.println("[" + (i + 1) + "] " + status + " " + tarefa.getNome());
+        }
+
+        int escolha = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+
+        if (escolha < 1 || escolha > listaTarefas.size()) {
+            System.out.println("\nOpção inválida. Tente novamente.\n");
+            return;
+        }
+
+        Tarefa tarefaSelecionada = listaTarefas.get(escolha - 1);
+        tarefaSelecionada.setConcluida(!tarefaSelecionada.isConcluida());
+
+        System.out.println("\n*** STATUS DA TAREFA ALTERADO COM SUCESSO ***\n");
+        Thread.sleep(2000);
     }
 }

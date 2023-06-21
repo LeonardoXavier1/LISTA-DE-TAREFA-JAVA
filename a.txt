@@ -1,0 +1,6 @@
+ARRUMAR:
+
+fazer uma classe independente da main
+que possa ser chamada por outra tela por exemplo. 
+
+a unica função da main é a de chamar as classes que sao independentes dela.

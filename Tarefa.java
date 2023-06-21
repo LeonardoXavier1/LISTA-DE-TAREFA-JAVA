@@ -2,6 +2,7 @@ public class Tarefa {
         private String nome;
         private String descricao;
         private String data;
+        private boolean concluida;
 
         public Tarefa(String nome, String descricao, String data) {
             this.nome = nome;
@@ -31,5 +32,13 @@ public class Tarefa {
 
         public void setData(String data) {
             this.data = data;
+        }
+
+        public boolean isConcluida() {
+            return concluida;
+        }
+    
+        public void setConcluida(boolean concluida) {
+            this.concluida = concluida;
         }
     }
